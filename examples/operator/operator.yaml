@@ -5752,6 +5752,7 @@ spec:
       - args:
         - --logtostderr
         - -v=4
+        - "--default_etcd_image=quay.io/coreos/etcd:v3.3.13"
         command:
         - vitess-operator
         env:
