@@ -113,6 +113,49 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
+  - name: customer
+    turndownPolicy: Immediate
+    partitionings:
+    - equal:
+        parts: 4
+        shardTemplate:
+          databaseInitScriptSecret:
+            name: example-cluster-config
+            key: init_db.sql
+          replication:
+            enforceSemiSync: false
+            initializeBackup: true
+          tabletPools:
+          - cell: zone1
+            type: replica
+            replicas: 0
+            backupLocationName: gcsbackup01
+            vttablet:
+              extraFlags:
+                db_charset: utf8mb4
+                disable_active_reparents: "true"
+                enable_semi_sync: "false"
+              resources:
+                limit:
+                  cpu: 100m
+                  memory: 256Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+            mysqld:
+              resources:
+                limit:
+                  cpu: 100m
+                  memory: 256Mi
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+            dataVolumeClaimTemplate:
+              accessModes: ["ReadWriteOnce"]
+              storageClassName: gce-pd-ssd
+              resources:
+                requests:
+                  storage: 10Gi
   updateStrategy:
     type: Immediate
 ---
