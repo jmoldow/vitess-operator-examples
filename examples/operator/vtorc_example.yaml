@@ -53,10 +53,13 @@ spec:
         key: orc_config.json
       resources:
         limits:
+          cpu: 100m
           memory: 128Mi
         requests:
           cpu: 100m
           memory: 128Mi
+      extraFlags:
+        clusters_to_watch: ""
     partitionings:
     - equal:
         parts: 1
