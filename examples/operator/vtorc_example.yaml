@@ -16,6 +16,18 @@ spec:
     mysqld:
       mysql56Compatible: vitess/lite:v10.0.1
     mysqldExporter: prom/mysqld-exporter:v0.11.0
+  backup:
+    locations:
+      - name: gcsbackup01
+        gcs:
+          bucket: vitess-bucket-1-box-sb-credence
+          keyPrefix: example-cluster-gcs-backup
+          authSecret:
+            name: example-backup-config
+            key: default-service-account.json
+    engine: xtrabackup
+    subcontroller:
+      serviceAccountName: vitess-operator
   cells:
   - name: zone1
     gateway:
@@ -69,10 +81,12 @@ spec:
             key: init_db.sql
           replication:
             enforceSemiSync: false
+            initializeBackup: true
           tabletPools:
           - cell: zone1
             type: replica
             replicas: 2
+            backupLocationName: gcsbackup01
             vttablet:
               extraFlags:
                 db_charset: utf8mb4
