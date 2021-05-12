@@ -93,16 +93,23 @@ spec:
                 disable_active_reparents: "true"
                 enable_semi_sync: "false"
               resources:
+                limit:
+                  cpu: 100m
+                  memory: 256Mi
                 requests:
                   cpu: 100m
                   memory: 256Mi
             mysqld:
               resources:
+                limit:
+                  cpu: 100m
+                  memory: 256Mi
                 requests:
                   cpu: 100m
                   memory: 256Mi
             dataVolumeClaimTemplate:
               accessModes: ["ReadWriteOnce"]
+              storageClassName: gce-pd-ssd
               resources:
                 requests:
                   storage: 10Gi
